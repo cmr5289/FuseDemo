@@ -3,9 +3,11 @@
 cd $HOME
 
 function installDefaults() {
+    echo ""
     echo "************************************"
     echo "Installing Default Packages"
     echo "************************************"
+    echo ""
 
     if [[ -e /usr/bin/php ]] ; then
         echo "Already done! Skipping..."
@@ -67,9 +69,11 @@ function installDefaults() {
 }
 
 function installComposer() {
+    echo ""
     echo "************************************"
     echo "Installing Composer"
     echo "************************************"
+    echo ""
 
     if [[ -e /usr/bin/composer ]] ; then
         echo "Already done! Skipping..."
@@ -111,13 +115,45 @@ xdebug.remote_connect_back=1" | tee -a /etc/php/7.3/mods-available/xdebug.ini
 
     phpenmod xdebug
     sudo service apache2 restart
-
 }
 
+build_phalcon(){
+
+echo "
+    ##########################################
+    ##       Installing Phaclon PHP         ##
+    ##########################################
+"
+
+    if [[ -f /etc/php/7.3/apache2/conf.d/50-phalcon.ini ]] ; then
+        echo "Already done!"
+        return
+    fi
+
+    #install phalcon
+    wget https://github.com/phalcon/cphalcon/archive/v3.4.4.tar.gz
+    tar -xvf v3.4.4.tar.gz
+    cd cphalcon-3.4.4/build || exit
+    sudo ./install
+    cd ~ || exit
+
+    #configure php
+    echo "extension=phalcon.so" | sudo tee -a /etc/php/7.3/mods-available/phalcon.ini
+
+    #configure php apache
+    sudo ln -s /etc/php/7.3/mods-available/phalcon.ini /etc/php/7.3/apache2/conf.d/50-phalcon.ini
+
+    #configure php cli
+    sudo ln -s /etc/php/7.3/mods-available/phalcon.ini /etc/php/7.3/cli/conf.d/50-phalcon.ini
+}
+
+
 function installMysql() {
+  echo ""
   echo "************************************"
   echo "Installing Mysql"
   echo "************************************"
+  echo ""
 
     if [[ -e /usr/bin/mysql ]] ; then
         echo "Already done! Skipping..."
@@ -140,18 +176,27 @@ general_log             = 1" | tee -a /etc/mysql/mysql.conf.d/mysqld.cnf
 
 }
 
-
+echo ""
 echo "************************************"
 echo "* Welcome to the FuseOS Code Demo  *"
 echo "************************************"
+echo ""
+echo ""
+echo ""
 
 echo "Please wait while we configure your vagrant box"
 installDefaults
 installComposer
 installMysql
+build_phalcon
+
+service apache2 restart
 
 echo "************************************"
 echo "* All Done!                        *"
+echo "*                                  *"
+echo "* PHP Phalcon has been built for   *"
+echo "* you.                             *"
 echo "*                                  *"
 echo "* Before you start. You need to    *"
 echo "* edit your hosts file.            *"
@@ -166,4 +211,5 @@ echo "* Navigate to http://vagrant.local *"
 echo "*                                  *"
 echo "* Mysql User: root                 *"
 echo "* Mysql Password: password         *"
+echo "* Mysql database: vagrant          *"
 echo "************************************"
