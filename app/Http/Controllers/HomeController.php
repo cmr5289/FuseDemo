@@ -26,8 +26,12 @@ class HomeController extends Controller
     {
         //$companies = \App\Company::all();
         $companies = DB::table('companies')->get();
+        $contacts = DB::table('contacts')->get();
+        foreach ($contacts as $value) {
+            $value->company = DB::table('companies')->where('id', $value->company_id)->first();
+        }
 
-        return view('welcome', ['companies' => $companies]);
+        return view('welcome', ['companies' => $companies, 'contacts' => $contacts]);
         //return view('home');
     }
 }
