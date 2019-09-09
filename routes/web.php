@@ -15,4 +15,5 @@
 
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/contacts', 'ContactsListController@index')->name('contacts');
+Route::get('/companies', 'CompaniesListController@index')->name('companies');
