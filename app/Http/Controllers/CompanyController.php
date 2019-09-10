@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Company;
 
 class CompanyController extends Controller
 {
@@ -22,14 +23,35 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($id)
+    public function index()
     {
-        $company = DB::table('companies')->where('id', $id)->first();
+        //return DB::table('companies')->get();
+        return Company::all();
+    }
 
-        if(!$company){
-            abort(404);
-        }
+    public function get(Company $company)
+    {
+        return $company;
+    }
 
-        return view('company', ['company' => $company]);
+    public function post(Request $request)
+    {
+        $company = Company::create($request->all());
+ 
+        return response()->json($product, 201);
+    }
+ 
+    public function put(Request $request, Company $company)
+    {
+        $company->update($request->all());
+ 
+        return response()->json($company, 200);
+    }
+ 
+    public function delete(Company $company)
+    {
+        $company->delete();
+ 
+        return response()->json(null, 204);
     }
 }
