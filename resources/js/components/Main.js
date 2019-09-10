@@ -47,6 +47,7 @@ class Main extends Component {
               <ul>
                 { this.rendercompanies() }
               </ul> 
+              <p>THIS SHOULD DO SOMETHING?</p>
             </div> 
        
     );
