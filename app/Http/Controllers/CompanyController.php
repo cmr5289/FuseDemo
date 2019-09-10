@@ -36,6 +36,15 @@ class CompanyController extends Controller
 
     public function post(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|unique:companies|max:255',
+            'address' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'phone' => 'required',
+        ]);
+
         $company = Company::create($request->all());
  
         return response()->json($product, 201);

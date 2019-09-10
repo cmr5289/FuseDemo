@@ -17,12 +17,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Company API
 Route::get('companies', 'CompanyController@index');
- 
 Route::get('companies/{company}', 'CompanyController@get');
- 
 Route::post('companies','CompanyController@post');
- 
 Route::put('companies/{company}','CompanyController@put');
- 
+Route::delete('companies/{company}', 'CompanyController@delete');
+
+// Contact API
+Route::get('companies', 'CompanyController@index');
+Route::get('companies/{company}', 'CompanyController@get');
+Route::post('companies','CompanyController@post');
+Route::put('companies/{company}','CompanyController@put');
 Route::delete('companies/{company}', 'CompanyController@delete');

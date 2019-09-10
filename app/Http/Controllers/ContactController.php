@@ -22,16 +22,42 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($id)
+    public function index()
     {
-        $contact = DB::table('contacts')->where('id', $id)->first();
+        return contact::all();
+    }
 
-        if(!$contact){
-            abort(404);
-        }
-        
-        $contact->company = DB::table('companies')->where('id', $contact->company_id)->first();
+    public function get(contact $contact)
+    {
+        return $contact;
+    }
 
-        return view('contact', ['contact' => $contact, 'id' => $id]);
+    public function post(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|unique:contacts|max:255',
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'phone' => 'required',
+            'company_id' => 'integer',
+        ]);
+
+        $contact = contact::create($request->all());
+ 
+        return response()->json($product, 201);
+    }
+ 
+    public function put(Request $request, contact $contact)
+    {
+        $contact->update($request->all());
+ 
+        return response()->json($contact, 200);
+    }
+ 
+    public function delete(contact $contact)
+    {
+        $contact->delete();
+ 
+        return response()->json(null, 204);
     }
 }
