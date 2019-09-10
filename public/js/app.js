@@ -66191,7 +66191,7 @@ if (token) {
 /*!*****************************************!*\
   !*** ./resources/js/components/Main.js ***!
   \*****************************************/
-/*! exports provided: default */
+/*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66220,7 +66220,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-/* An example React component */
+/* Main Component */
 
 var Main =
 /*#__PURE__*/
@@ -66228,28 +66228,61 @@ function (_Component) {
   _inherits(Main, _Component);
 
   function Main() {
+    var _this;
+
     _classCallCheck(this, Main);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Main).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Main).call(this)); //Initialize the state in the constructor
+
+    _this.state = {
+      companies: []
+    };
+    return _this;
   }
+  /*componentDidMount() is a lifecycle method
+   * that gets called after the component is rendered
+   */
+
 
   _createClass(Main, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      /* fetch API in action */
+      fetch('/api/companies').then(function (response) {
+        return response.json();
+      }).then(function (companies) {
+        //Fetched company is stored in the state
+        _this2.setState({
+          companies: companies
+        });
+      });
+    }
+  }, {
+    key: "rendercompanies",
+    value: function rendercompanies() {
+      return this.state.companies.map(function (company) {
+        return (
+          /* When using list you need to specify a key
+           * attribute that is unique for each list item
+          */
+          react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            key: company.id
+          }, company.title)
+        );
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "All Products"));
+      /* Some css code has been removed for brevity */
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.rendercompanies()));
     }
   }]);
 
   return Main;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (Main);
-/* The if statement is required so as to Render the component on pages that have a div with an ID of "root";  
-*/
-
-if (document.getElementById('root')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Main, null), document.getElementById('root'));
-}
 
 /***/ }),
 

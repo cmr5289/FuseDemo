@@ -1,22 +1,54 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
  
-/* An example React component */
+/* Main Component */
 class Main extends Component {
-    render() {
-        return (
-            <div>
-                <h3>All Products</h3>
-            </div>
-        );
+ 
+  constructor() {
+   
+    super();
+    //Initialize the state in the constructor
+    this.state = {
+        companies: [],
     }
-}
+  }
+  /*componentDidMount() is a lifecycle method
+   * that gets called after the component is rendered
+   */
+  componentDidMount() {
+    /* fetch API in action */
+    fetch('/api/companies')
+        .then(response => {
+            return response.json();
+        })
+        .then(companies => {
+            //Fetched company is stored in the state
+            this.setState({ companies });
+        });
+  }
  
-export default Main;
- 
-/* The if statement is required so as to Render the component on pages that have a div with an ID of "root";  
-*/
- 
-if (document.getElementById('root')) {
-    ReactDOM.render(<Main />, document.getElementById('root'));
+ rendercompanies() {
+    return this.state.companies.map(company => {
+        return (
+            /* When using list you need to specify a key
+             * attribute that is unique for each list item
+            */
+            <li key={company.id} >
+                { company.title } 
+            </li>      
+        );
+    })
+  }
+   
+  render() {
+   /* Some css code has been removed for brevity */
+    return (
+        <div>
+              <ul>
+                { this.rendercompanies() }
+              </ul> 
+            </div> 
+       
+    );
+  }
 }
