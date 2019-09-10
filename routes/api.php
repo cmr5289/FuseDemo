@@ -25,8 +25,8 @@ Route::put('companies/{company}','CompanyController@put');
 Route::delete('companies/{company}', 'CompanyController@delete');
 
 // Contact API
-Route::get('companies', 'CompanyController@index');
-Route::get('companies/{company}', 'CompanyController@get');
-Route::post('companies','CompanyController@post');
-Route::put('companies/{company}','CompanyController@put');
-Route::delete('companies/{company}', 'CompanyController@delete');
+Route::get('contacts', 'ContactController@index');
+Route::get('contacts/{contact}', 'ContactController@get');
+Route::post('contacts','ContactController@post');
+Route::put('contacts/{contact}','ContactController@put');
+Route::delete('contacts/{contact}', 'ContactController@delete');

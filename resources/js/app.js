@@ -14,4 +14,4 @@ require('./bootstrap');
 
 require('./components/App');
 
-import Example from './components/Example';
+import Main from './components/Main';
